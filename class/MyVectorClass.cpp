@@ -5,7 +5,7 @@ using namespace std;
 class MyVector{
 public:
         MyVector() = default;
-        MyVector(int _size, int _value) : size(_size){
+        MyVector(size_t _size, int _value = 0) : size(_size){
             capacity = (size > 0) ? size * increaseCapacity : 1;
             array = new int[capacity];
             for(int i = 0; i < size; i++)
@@ -37,14 +37,7 @@ public:
             }
         }
         
-        friend std::ostream& operator<<(ostream& out, const MyVector& v)
-        {
-            for(int i = 0; i < v.size; i++)
-            {
-                out << v.array[i] << " ";
-            }
-            return out;
-        }
+        friend std::ostream& operator<<(ostream& out, const MyVector& v);
         
         void My_push_back(int number) {
             if (size == capacity) {
@@ -56,11 +49,10 @@ public:
         
         void My_pop_back()
         {
-            if(size < 0){
+            if(size == 0){
                 cout << "Массив не может быть меньше нуля, размер массива остался с прежним значением";
                 size++;
             }
-            array[size] = 0;
             size--;
         }
         
@@ -69,14 +61,15 @@ public:
         }
         
         void My_insert(int xValue,size_t index){
-            if(size > index && index > 0)
+            if(size==capacity)
+                UpdateCapacity();
+            if(size > index)
             {
                 for(int i = size; i >= index; i--)
                 {
                     array[i] = array[i-1];
                 }
-                if(size==capacity)
-                    UpdateCapacity();
+
                 array[index] = xValue;
                 size++;
             }
@@ -84,7 +77,7 @@ public:
         }
         
         void My_erase(size_t index){
-            if(size > index && index > 0)
+            if(size > index)
             {
                 for(int i = index; i < size; i++)
                 {
@@ -118,6 +111,13 @@ private:
     }
 };
 
+        std::ostream& operator<<(ostream& out, const MyVector& v){
+            for(int i = 0; i < v.size; i++)
+            {
+                out << v.array[i] << " ";
+            }
+            return out;
+        }
 
 int main()
 {
