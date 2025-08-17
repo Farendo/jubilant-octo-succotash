@@ -122,15 +122,9 @@ MyComplexNumber operator* (MyComplexNumber& firstCN, const MyComplexNumber& seco
 }
 MyComplexNumber operator/ (MyComplexNumber& firstCN, MyComplexNumber& secondCN)
 {
-	MyComplexNumber result;
-	if (pow(secondCN.realNumber, 2) + pow(secondCN.imaginaryNumber, 2) != 0)
-	{
-		result.realNumber = (firstCN.realNumber * secondCN.realNumber + firstCN.imaginaryNumber * secondCN.imaginaryNumber) / (pow(secondCN.realNumber, 2) + pow(secondCN.imaginaryNumber, 2));
-		result.imaginaryNumber = (firstCN.imaginaryNumber * secondCN.realNumber - firstCN.realNumber * secondCN.imaginaryNumber) / (pow(secondCN.realNumber, 2) + pow(secondCN.imaginaryNumber, 2));
-	}
-	else
-		cout << "Деление невозможно";
-	return result;
+	MyComplexNumber temp(firstCN);
+	temp /= secondCN;
+	return temp;
 }
 
 
