@@ -101,7 +101,6 @@ private:
 
 };
 
-
 MyComplexNumber operator+ (MyComplexNumber& firstCN, const MyComplexNumber& secondCN)
 {
 	MyComplexNumber temp(firstCN);
@@ -125,43 +124,6 @@ MyComplexNumber operator/ (MyComplexNumber& firstCN, MyComplexNumber& secondCN)
 	MyComplexNumber temp(firstCN);
 	temp /= secondCN;
 	return temp;
-}
-
-
-ostream& operator << (ostream& out, const MyComplexNumber& c) {
-	if (c.realNumber != 0)
-		out << c.realNumber;
-	if (c.imaginaryNumber != 0)
-		if (c.imaginaryNumber > 0)
-		{
-			out << "+";
-			out << c.imaginaryNumber;
-			out << "i";
-		}
-		else
-		{
-			out << c.imaginaryNumber;
-			out << "i";
-		}
-	return out;
-}
-
-istream& operator >> (istream& in, MyComplexNumber& c) {
-	in >> c.realNumber;
-	in >> c.imaginaryNumber;
-	return in;
-}
-
-
-int main() {
-	MyComplexNumber n;
-	cin >> n;
-	cout << n;
-	return 0;
-}
-	else
-		cout << "Деление невозможно";
-		return result;
 }
 
 
