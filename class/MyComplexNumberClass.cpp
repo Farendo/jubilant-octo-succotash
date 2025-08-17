@@ -101,18 +101,24 @@ private:
 
 };
 
-MyComplexNumber operator+ (const MyComplexNumber& firstCN, const MyComplexNumber& secondCN)
-{
-	return MyComplexNumber(firstCN.realNumber + secondCN.realNumber, firstCN.imaginaryNumber + secondCN.imaginaryNumber);
-}
 
-MyComplexNumber operator- (const MyComplexNumber& firstCN, const MyComplexNumber& secondCN)
+MyComplexNumber operator+ (MyComplexNumber& firstCN, const MyComplexNumber& secondCN)
 {
-	return MyComplexNumber(firstCN.realNumber - secondCN.realNumber, firstCN.imaginaryNumber - secondCN.imaginaryNumber);
+	MyComplexNumber temp(firstCN);
+	temp += secondCN;
+	return temp;
 }
-MyComplexNumber operator* (const MyComplexNumber& firstCN, const MyComplexNumber& secondCN)
+MyComplexNumber operator- (MyComplexNumber& firstCN, const MyComplexNumber& secondCN)
 {
-	return MyComplexNumber(firstCN.realNumber * secondCN.realNumber, firstCN.imaginaryNumber * secondCN.imaginaryNumber);
+	MyComplexNumber temp(firstCN);
+	temp -= secondCN;
+	return temp;
+}
+MyComplexNumber operator* (MyComplexNumber& firstCN, const MyComplexNumber& secondCN)
+{
+	MyComplexNumber temp(firstCN);
+	temp *= secondCN;
+	return temp;
 }
 MyComplexNumber operator/ (MyComplexNumber& firstCN, MyComplexNumber& secondCN)
 {
@@ -161,7 +167,7 @@ int main() {
 }
 	else
 		cout << "Деление невозможно";
-	return result;
+		return result;
 }
 
 
