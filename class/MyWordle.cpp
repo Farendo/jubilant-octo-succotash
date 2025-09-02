@@ -8,8 +8,8 @@ using namespace std;
 
 class MyWordle
 {
-	int rows;
-	int columns;
+	size_t rows;
+	size_t columns;
 	vector<vector<char>> WordleCell;
 	char RandomChar()
 	{
@@ -18,14 +18,69 @@ class MyWordle
 	}
 	void initializeWordle()
 	{
-		for (int i = 0; i < rows; i++)
+		for (size_t i = 0; i < rows; i++)
 		{
-			for (int j = 0; j < columns; j++)
+			for (size_t j = 0; j < columns; j++)
 			{
 				WordleCell[i][j] = RandomChar();
 			}
 		}
 	}
+	bool FindHorizontal(const string& word)
+	{
+		if (word.length() > columns) {
+			return false;
+		}
+		for (size_t i = 0; i < rows; i++)
+		{
+			for (size_t j = 0; j <= columns - word.length(); j++)
+			{
+				bool found = true;
+				for (size_t k = 0; k < word.length(); k++)
+				{
+					if (WordleCell[i][j + k] != word[k])
+					{
+						found = false;
+						break;
+					}
+				}
+				if (found) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	bool FindVertical(const string& word)
+	{
+		if (word.length() > rows) {
+			return false;
+		}
+		for (size_t j = 0; j < columns; j++)
+		{
+			for (size_t i = 0; i <= rows - word.length(); i++)
+			{
+				bool found = true;
+				for (size_t k = 0; k < word.length(); k++)
+				{
+					if (WordleCell[i + k][j] != word[k])
+					{
+						found = false;
+						break;
+					}
+				}
+
+				if (found) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+
+
 public:
 	MyWordle() : rows(3), columns(3), WordleCell(rows, vector<char>(columns))
 	{
@@ -37,14 +92,20 @@ public:
 	};
 
 	void PrintWordle() {
-		for (int i = 0; i < WordleCell.size(); i++)
+		cout << endl;
+		for (size_t i = 0; i < WordleCell.size(); i++)
 		{
-			for (int j = 0; j < WordleCell[0].size(); j++)
+			for (size_t j = 0; j < WordleCell[0].size(); j++)
 			{
 				cout << WordleCell[i][j] << " | ";
 			}
 			cout << endl;
 		}
+	}
+
+	bool FindWord(const string& word)
+	{
+		return FindHorizontal(word) || FindVertical(word);
 	}
 };
 
@@ -53,7 +114,30 @@ public:
 
 int main() {
 	srand(time(nullptr));
-	MyWordle a(5, 10);
+	size_t rows, columns;
+	string word;
+	cout << "Write count rows: ";
+	cin >> rows;
+	cout << "\nWrite count columns: ";
+	cin >> columns;
+	MyWordle a(rows, columns);
 	a.PrintWordle();
+	while (true)
+	{
+		cout << "\nEnter word (or 'exit' for exit ;D): ";
+		cin >> word;
+
+		if (word == "exit") {
+			break;
+		}
+
+		if (a.FindWord(word)) {
+			cout << "Word: " << word << " Was found\n";
+		}
+		else {
+			cout << "Word: " << word << " Dont found\n";
+		}
+	}
 	return 0;
+
 }
