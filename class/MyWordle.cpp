@@ -41,7 +41,7 @@ public:
 		{
 			for (int j = 0; j < WordleCell[0].size(); j++)
 			{
-				cout << WordleCell[i][j] << ' ';
+				cout << WordleCell[i][j] << " | ";
 			}
 			cout << endl;
 		}
