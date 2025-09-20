@@ -1,5 +1,4 @@
-﻿#ifndef TAMAGOCHI_HPP
-#define TAMAGOCHI_HPP
+﻿#pragma once
 
 #include <iostream>
 
@@ -68,5 +67,3 @@ public:
 
 void ClearConsole();
 void FooGame(Tamagochi& pet);
-
-#endif
