@@ -1,5 +1,9 @@
-#include "shape.hpp"
+#include "shape.h"
 #include <cmath>
+
+#ifndef M_PI
+#define M_PI 3.14
+#endif
 
 using namespace std;
 
