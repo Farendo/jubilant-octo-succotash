@@ -1,4 +1,4 @@
-#include "Tamagochi.hpp"
+#include "Tamagochi.h"
 #include <iostream>
 
 using namespace std;
