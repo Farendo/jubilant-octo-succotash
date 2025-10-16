@@ -30,7 +30,7 @@ void GM::Start()
 	gameBoard.SetBoardSize(3);
 	gameBoard.characterInitialization(GetPlayerTurn());
 	gameBoard.UpdateBoard();
-	while (true)
+	while (!ShouldExit)
 	{
 		system("cls");
 		gameBoard.UpdateBoard();
@@ -105,7 +105,7 @@ void GM::Restart()
 
 void GM::Close()
 {
-	std::exit(0);
+	ShouldExit = true;
 }
 
 

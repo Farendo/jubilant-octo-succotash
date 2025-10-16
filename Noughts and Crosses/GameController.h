@@ -5,6 +5,7 @@
 class GM {
 private:
 	bool playerTurn = true;
+	bool ShouldExit = false;
 
 public:
 	GM();
