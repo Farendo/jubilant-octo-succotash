@@ -1,10 +1,7 @@
 ﻿#include "AI.h"
 
 
-AI::AI()
-{
-	std::srand(std::time(nullptr));
-};
+AI::AI() {};
 AI::~AI() {};
 
 int AI::GetRow()
@@ -23,9 +20,16 @@ void AI::SetVector2(int r, int c)
 	column = c;
 }
 
-int	AI::RandAI(int number)
+std::mt19937& AI::get_generator()
 {
-	return rand() % number;
+	static std::random_device rd;
+	static std::mt19937 gen(rd());
+	return gen;
+}
+
+int AI::RandAI(int number) {
+	std::uniform_int_distribution<int> distrib(0, number - 1);
+	return distrib(get_generator());
 }
 
 bool AI::CheckWinMove(Board& board, CellType AItype) {
@@ -117,53 +121,50 @@ void AI::logicAI(Board& board)
 		}
 		else
 		{
-			if (RandAI(2))
+			switch (RandAI(4))
 			{
-				if (RandAI(2))
-				{
-					//лево-верх 
-					SetVector2(1, 1);
-				}
-				else
-				{
-					//лево-низ 
-					SetVector2(3, 1);
-				}
-			}
-			else
-			{
-				if (RandAI(2))
-				{
-					//право-верх 
-					SetVector2(1, 3);
-				}
+			case 0:
+				//лево-верх 
+				SetVector2(1, 1);
+				break;
+			case 1:
+				//лево-низ 
+				SetVector2(3, 1);
+				break;
+			case 2:
+				//право-верх 
+				SetVector2(1, 3);
+				break;
+			case 3:
 				//право-низ 
 				SetVector2(3, 3);
+				break;
+			default:
+				break;
 			}
 		}
 		return;
 	}
+
 	//если центр свободен, то с шансом в 50% займёт его
 	if (RandAI(2) && board(1, 1) == EMPTY) {
 		SetVector2(1, 1);
 		return;
 	}
+
 	//тут проверка на победу AI, если находит такой ход, то ходит туда
 	if (CheckWinMove(board, board.GetAIType())) { return; }
+
 	//тут проверка на победу человека, если находит такой ход, то ходит чтобы заблокировать
 	if (CheckBlockMove(board)) { return; }
+
 	//тут уже просто рандомный ход
-	while (true)
-	{
-		int r = RandAI(3) + 1;
-		int c = RandAI(3) + 1;
-		if (board(r - 1, c - 1) == EMPTY)
-		{
-			SetVector2(r, c);
-			return;
-		}
-	}
+	board.UpdateArrayFreeCells();
+	int randomIndex = RandAI(board.GetSizeFreeCells());
+	std::pair<int, int > moveAI = board.GetFreeCell(randomIndex);
+	SetVector2(moveAI.first + 1, moveAI.second + 1);
 }
+
 
 
 

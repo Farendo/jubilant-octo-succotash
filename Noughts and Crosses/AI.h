@@ -17,6 +17,6 @@ public:
 
 	bool CheckWinMove(Board& board, CellType AItype);
 	bool CheckBlockMove(Board& board);
-
+	static std::mt19937& get_generator();
 	void logicAI(Board& board);
 };

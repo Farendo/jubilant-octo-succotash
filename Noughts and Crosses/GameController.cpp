@@ -8,15 +8,27 @@
 
 GM::GM() {};
 GM::~GM() {};
+
+bool GM::GetPlayerTurn()
+{
+	return playerTurn;
+}
+
+void GM::SetPlayerTurn()
+{
+	playerTurn = !playerTurn;
+}
+
 void GM::Start()
 {
 	Board gameBoard;
 	InputController IC;
 	AI gameAI;
 
+	playerTurn = gameBoard.RandTurn();
 
 	gameBoard.SetBoardSize(3);
-
+	gameBoard.characterInitialization(GetPlayerTurn());
 	gameBoard.UpdateBoard();
 	while (true)
 	{
@@ -29,7 +41,7 @@ void GM::Start()
 			break;
 		}
 
-		if (gameBoard.GetPlayerTurn())
+		if (GetPlayerTurn())
 		{
 			std::cout << "Write row and column(e.g.2  2): ";
 			while (!gameBoard.IsValidMove(IC.GetRow(), IC.GetColumn()))
@@ -49,13 +61,11 @@ void GM::Start()
 				break;
 			}
 
-			gameBoard.SetPlayerTurn();
+			SetPlayerTurn();
 		}
 		else
 		{
-			do {
-				gameAI.logicAI(gameBoard);
-			} while (!gameBoard.IsValidMove(gameAI.GetRow(), gameAI.GetColumn()));
+			gameAI.logicAI(gameBoard);
 
 			gameBoard.SetBoardCell(gameBoard.GetAIType(), gameAI.GetRow(), gameAI.GetColumn());
 
@@ -66,7 +76,7 @@ void GM::Start()
 				std::cout << "\nUnlucky! You Lose!\n";
 				break;
 			}
-			gameBoard.SetPlayerTurn();
+			SetPlayerTurn();
 		}
 	}
 

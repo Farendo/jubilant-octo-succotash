@@ -4,8 +4,18 @@
 Board::Board()
 {
 	board.resize(boardSize, std::vector<CellType>(boardSize, EMPTY));
-	playerTurn = RandTurn();
-	if (playerTurn)
+};
+Board::~Board() {};
+
+
+CellType& Board::operator()(int row, int col)
+{
+	return board[row][col];
+}
+
+void Board::characterInitialization(bool turn)
+{
+	if (turn)
 	{
 		playerType = CROSS;
 		aiType = NOUGHT;
@@ -15,12 +25,6 @@ Board::Board()
 		playerType = NOUGHT;
 		aiType = CROSS;
 	}
-};
-Board::~Board() {};
-
-CellType& Board::operator()(int row, int col)
-{
-	return board[row][col];
 }
 
 void Board::UpdateBoard()
@@ -108,7 +112,7 @@ bool Board::RandTurn()
 }
 bool Board::CheckWin(CellType type)
 {
-	bool leftD = true, rightD = true, rows = true, cols = true;
+	bool leftD = true, rightD = true;
 
 	for (size_t i = 0; i < boardSize; i++)
 	{
@@ -126,12 +130,14 @@ bool Board::CheckWin(CellType type)
 
 	for (size_t i = 0; i < boardSize; i++)
 	{
+		bool rows = true, cols = true;
 		for (size_t j = 0; j < boardSize; j++)
 		{
-			cols &= (board[i][j] == type);
-			rows &= (board[j][i] == type);
+			rows = rows && (board[i][j] == type);
+			cols = cols && (board[j][i] == type);
 		}
-		if (rows || cols == true)
+
+		if (rows || cols)
 			return true;
 	}
 
@@ -148,15 +154,6 @@ bool Board::CheckDraw()
 	return true;
 }
 
-bool Board::GetPlayerTurn()
-{
-	return playerTurn;
-}
-
-void Board::SetPlayerTurn()
-{
-	playerTurn = !playerTurn;
-}
 
 bool Board::IsValidMove(int r, int c)
 {
@@ -190,3 +187,29 @@ bool Board::isEmptyBoard()
 	return true;
 }
 
+
+void Board::UpdateArrayFreeCells()
+{
+	freeCells.clear();
+	freeCells.reserve(GetBoardSize() * GetBoardSize());
+	for (int i = 0; i < GetBoardSize(); i++)
+	{
+		for (int j = 0; j < GetBoardSize(); j++)
+		{
+			if (board[i][j] == EMPTY)
+			{
+				freeCells.emplace_back(i, j);
+			}
+		}
+	}
+}
+
+int Board::GetSizeFreeCells()
+{
+	return freeCells.size();
+}
+
+std::pair<int, int> Board::GetFreeCell(int count)
+{
+	return freeCells[count];
+}
