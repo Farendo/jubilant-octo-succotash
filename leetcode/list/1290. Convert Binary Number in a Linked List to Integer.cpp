@@ -26,7 +26,8 @@ public:
 	int getDecimalValue(ListNode* head) {
 
 		ListNode* current = head;
-		int number = 0, size = 0, result = 0, level = 1;
+		long long number = 0;
+		int size = 0, result = 0, level = 1;
 		while (current != nullptr)
 		{
 			number *= 10;
